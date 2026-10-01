@@ -81,66 +81,96 @@ st.markdown(
 )
 
 # ─────────────────────────────────────────────────────────────
-# 2. Preset Business Templates
+# 2. Preset Business Templates (Pakistan & Emerging Markets + Global)
 # ─────────────────────────────────────────────────────────────
 PRESET_TEMPLATES = {
     "Custom / Blank": {
         "idea": "",
         "industry": "",
         "market": "",
-        "stage": "Seed Stage ($500K - $1.5M)",
+        "stage": "Seed Stage ($100K - $500K)",
         "focus": "",
     },
-    "B2B Regulatory Compliance & Audit SaaS": {
+    "🇵🇰 Pakistan: Kiryana & SME Micro-Lending Platform (Fintech)": {
         "idea": (
-            "An enterprise compliance automation and audit-readiness platform for mid-market fintech and healthcare firms. "
-            "Ingests contracts, vendor agreements, and internal policies to continuously detect compliance gaps across SOC 2, HIPAA, and GDPR."
+            "An AI-driven micro-lending and automated credit-scoring platform for informal kiryana (retail grocery) stores and small merchants across Pakistan. "
+            "Ingests digital ledger transactions, Raast, JazzCash, and supplier invoicing data to underwrite collateral-free 30-day working capital loans."
+        ),
+        "industry": "Fintech / SME Digital Credit & Embedded Finance",
+        "market": "Pakistan (Karachi, Lahore, Faisalabad, Rawalpindi & Tier-2 Commercial Hubs)",
+        "stage": "Seed Stage (PKR 50M - 150M / $200K - $500K)",
+        "focus": (
+            "State Bank of Pakistan (SBP) digital lending regulatory compliance, default rate mitigation in informal cash retail, "
+            "and distribution partnership with FMCG distributors (Unilever, Nestlé)."
+        ),
+    },
+    "🇵🇰 Pakistan: Direct Farm-to-Retail AgriTech Supply Chain (AgriTech)": {
+        "idea": (
+            "A B2B farm-to-retail procurement marketplace connecting smallholder wheat, rice, citrus, and vegetable farmers in Sindh & Punjab directly "
+            "with urban supermarkets, restaurants, and wholesale mandees, eliminating exploitative middlemen (arthis) and deploying cold-storage transit."
+        ),
+        "industry": "AgriTech & Cold-Chain Perishable Logistics",
+        "market": "Rural Sindh/Punjab ➔ Urban Metros (Karachi, Lahore, Islamabad)",
+        "stage": "Seed Stage ($500K - $1.5M)",
+        "focus": (
+            "Farmer seasonal working capital advances, post-harvest spoilage reduction (cold logistics), "
+            "and wholesale price transparency algorithms."
+        ),
+    },
+    "🇵🇰 Pakistan: Rooftop Solar Leasing & IoT Net-Metering (CleanTech)": {
+        "idea": (
+            "Zero-down distributed rooftop solar power-purchase-agreement (PPA) leasing and smart IoT net-metering for textile factories, "
+            "commercial plazas, and residential housing societies battling soaring NEPRA/DISCO electricity tariffs and grid load-shedding."
+        ),
+        "industry": "Renewable Energy / Distributed Commercial Solar",
+        "market": "Pakistan Industrial Clusters (Karachi, Sialkot, Faisalabad, Gujranwala)",
+        "stage": "Series A ($2M - $5M)",
+        "focus": (
+            "Import currency FX devaluation hedging on solar inverters/panels, DISCO grid-tie regulatory bottlenecks, "
+            "and long-term commercial PPA payment enforcement."
+        ),
+    },
+    "🇵🇰 Pakistan: US & GCC Remote Tech Talent Cloud (B2B Services)": {
+        "idea": (
+            "A curated talent marketplace connecting vetted Pakistani full-stack software engineers, AI researchers, and DevOps specialists "
+            "directly with tech startups and enterprises in Silicon Valley, London, Riyadh, and Dubai, with automated escrow payments and local compliance."
+        ),
+        "industry": "B2B Tech Services & Cross-Border Engineering Cloud",
+        "market": "Pakistani Software Engineers ➔ US, UK & GCC Enterprise Clients (Riyadh, Dubai, US)",
+        "stage": "Early Revenue / Pre-Seed ($150K - $300K)",
+        "focus": (
+            "US/GCC enterprise client acquisition, senior engineer retention against international remote jobs, "
+            "and gross margin optimization on monthly billable hours."
+        ),
+    },
+    "🌍 Global: B2B Enterprise Compliance & Audit SaaS": {
+        "idea": (
+            "An enterprise compliance automation platform for mid-market fintech and healthcare firms. "
+            "Ingests vendor contracts and internal policies to continuously detect compliance gaps across SOC 2, HIPAA, and GDPR."
         ),
         "industry": "Enterprise Software / RegTech & LegalTech",
         "market": "North America & European Union (Mid-Market B2B)",
         "stage": "Seed Stage ($1M Raised)",
         "focus": (
             "Usage-based vs seat-based pricing architecture, enterprise sales cycle compression, "
-            "defensibility against legacy GRC vendors, and CAC payback timeline."
-        ),
-    },
-    "Sustainable Circular DTC Apparel Brand": {
-        "idea": (
-            "A closed-loop direct-to-consumer performance athletic apparel brand manufactured strictly from 100% ocean-bound recycled polymers, "
-            "featuring a guaranteed buy-back trade-in program where worn garments are remanufactured into new lines."
-        ),
-        "industry": "Consumer Goods / Sustainable Apparel & Retail",
-        "market": "Urban Demographic (US & UK Tier-1 Metros)",
-        "stage": "Early Revenue / Pre-Seed ($300K Angel Round)",
-        "focus": (
-            "Customer acquisition cost (CAC) reduction in privacy-first channels, reverse-logistics margin viability, and repeat purchase LTV."
-        ),
-    },
-    "Autonomous Drone Logistics for Clinical Diagnostics": {
-        "idea": (
-            "On-demand autonomous medical drone transport delivering critical pathology specimens, blood units, and anti-venom to rural clinics "
-            "and regional health systems within a 75-mile operating radius."
-        ),
-        "industry": "Healthcare Logistics & Autonomous Aviation",
-        "market": "Regional Healthcare Networks & Rural Health Systems",
-        "stage": "Series A ($5M Target)",
-        "focus": (
-            "FAA certification pathway, health system procurement friction, fleet maintenance CapEx, and break-even per flight route."
+            "and defensibility against legacy GRC vendors."
         ),
     },
 }
 
 # Initialize session state variables
+DEFAULT_PRESET_KEY = "🇵🇰 Pakistan: Kiryana & SME Micro-Lending Platform (Fintech)"
+
 if "business_idea" not in st.session_state:
-    st.session_state["business_idea"] = PRESET_TEMPLATES["B2B Regulatory Compliance & Audit SaaS"]["idea"]
+    st.session_state["business_idea"] = PRESET_TEMPLATES[DEFAULT_PRESET_KEY]["idea"]
 if "target_industry" not in st.session_state:
-    st.session_state["target_industry"] = PRESET_TEMPLATES["B2B Regulatory Compliance & Audit SaaS"]["industry"]
+    st.session_state["target_industry"] = PRESET_TEMPLATES[DEFAULT_PRESET_KEY]["industry"]
 if "target_market" not in st.session_state:
-    st.session_state["target_market"] = PRESET_TEMPLATES["B2B Regulatory Compliance & Audit SaaS"]["market"]
+    st.session_state["target_market"] = PRESET_TEMPLATES[DEFAULT_PRESET_KEY]["market"]
 if "budget_or_stage" not in st.session_state:
-    st.session_state["budget_or_stage"] = PRESET_TEMPLATES["B2B Regulatory Compliance & Audit SaaS"]["stage"]
+    st.session_state["budget_or_stage"] = PRESET_TEMPLATES[DEFAULT_PRESET_KEY]["stage"]
 if "strategic_focus" not in st.session_state:
-    st.session_state["strategic_focus"] = PRESET_TEMPLATES["B2B Regulatory Compliance & Audit SaaS"]["focus"]
+    st.session_state["strategic_focus"] = PRESET_TEMPLATES[DEFAULT_PRESET_KEY]["focus"]
 if "report_results" not in st.session_state:
     st.session_state["report_results"] = None
 
