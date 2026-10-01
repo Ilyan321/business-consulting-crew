@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Streamlit secrets (DO NOT COMMIT SECRETS TO GIT)
+.streamlit/secrets.toml
+
+# Environment variables
+.env
+*.env
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# CrewAI cache and logs
+.crewai/
+db/
