@@ -93,23 +93,18 @@ def create_consulting_tasks(
     # Task 4: Executive Review, Quality Audit & Boardroom Advisory Report
     executive_review_task = Task(
         description=(
-            "As Senior Executive Reviewer & Managing Partner, audit and synthesize the outputs "
-            "from Market Research, Business Strategy, and Financial Risk into a polished, boardroom-ready "
-            "Business Strategy Advisory Report for {business_idea}.\n\n"
-            "Your deliverable must include:\n"
-            "1. Executive Summary & Strategic Viability Scorecard (Rating: High / Moderate / Conditional).\n"
-            "2. Key Strategic Takeaways & Value Architecture.\n"
-            "3. Critical Vulnerabilities & Stress-Test Audit.\n"
-            "4. Actionable 30-60-90 Day Post-Launch Implementation Roadmap.\n"
-            "5. Final Go/Pivot/No-Go Advisory Verdict."
+            "As Senior Executive Reviewer & Managing Partner, synthesize all analyses into a complete, authoritative, "
+            "and boardroom-ready Strategic Advisory Report for {business_idea}.\n\n"
+            "You MUST write out and fully conclude all 5 sections from beginning to end without cutting off:\n"
+            "# 1. Executive Summary & Strategic Viability Scorecard\n"
+            "# 2. Strategic Value Architecture & Go-to-Market Highlights\n"
+            "# 3. Financial Viability, Unit Economics (CAC/LTV) & Capital Requirements\n"
+            "# 4. Critical Vulnerabilities & Risk Mitigation Matrix\n"
+            "# 5. Phased 30-60-90 Day Actionable Execution Roadmap & Final Verdict"
         ),
         expected_output=(
-            "An authoritative Boardroom-Ready Business Strategy Advisory Report in clean Markdown:\n"
-            "# 1. Executive Summary & Strategic Scorecard\n"
-            "# 2. Strategic Value Architecture & Market Position\n"
-            "# 3. Financial Viability & Critical Stress-Test Findings\n"
-            "# 4. Actionable 30-60-90 Day Execution Roadmap\n"
-            "# 5. Final Strategic Verdict & Next Steps"
+            "A complete, fully finished Boardroom Strategic Advisory Report in clean Markdown with all 5 numbered sections "
+            "fully written out, concluding with the concrete 30-60-90 day roadmap and final investment verdict."
         ),
         agent=reviewer,
         context=[market_research_task, strategy_formulation_task, financial_risk_task],

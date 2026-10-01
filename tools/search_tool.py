@@ -12,7 +12,7 @@ def duckduckgo_web_search(query: str) -> str:
     """
     try:
         with DDGS() as ddgs:
-            results = list(ddgs.text(query, max_results=4))
+            results = list(ddgs.text(query, max_results=2))
             if not results:
                 return f"No live web search results found for query: '{query}'."
 
@@ -20,11 +20,11 @@ def duckduckgo_web_search(query: str) -> str:
             for item in results:
                 title = item.get("title", "Untitled")
                 link = item.get("href", "")
-                snippet = item.get("body", "")
+                snippet = item.get("body", "")[:180]
                 formatted_results.append(
-                    f"Title: {title}\nURL: {link}\nSnippet: {snippet}"
+                    f"- **{title}**: {snippet} ({link})"
                 )
 
-            return "\n---\n".join(formatted_results)
+            return "\n".join(formatted_results)
     except Exception as e:
-        return f"Web search could not retrieve live results (Error: {str(e)}). Proceed with domain expertise."
+        return f"Web search notice: {str(e)}"

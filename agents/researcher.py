@@ -29,6 +29,7 @@ def create_researcher_agent(
         ),
         llm=llm,
         tools=tools or [],
+        max_iter=2,
         verbose=verbose,
         allow_delegation=False,
     )

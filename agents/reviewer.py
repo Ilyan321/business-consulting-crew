@@ -25,6 +25,7 @@ def create_reviewer_agent(llm: LLM, verbose: bool = True) -> Agent:
             "guidance with pragmatic milestones."
         ),
         llm=llm,
+        max_iter=1,
         verbose=verbose,
         allow_delegation=False,
     )

@@ -49,7 +49,8 @@ def get_groq_api_key(explicit_key: Optional[str] = None) -> str:
 def get_llm(
     api_key: Optional[str] = None,
     model: str = DEFAULT_MODEL,
-    temperature: float = 0.7,
+    temperature: float = 0.5,
+    max_tokens: int = 4096,
 ) -> LLM:
     """
     Initializes a modern CrewAI LLM instance configured for Groq's
@@ -83,6 +84,7 @@ def get_llm(
         base_url=GROQ_BASE_URL,
         api_key=resolved_key,
         temperature=temperature,
+        max_tokens=max_tokens,
     )
 
 

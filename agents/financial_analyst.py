@@ -22,6 +22,7 @@ def create_financial_analyst_agent(llm: LLM, verbose: bool = True) -> Agent:
             "and formulate quantitative risk contingency strategies to protect investor and founder capital."
         ),
         llm=llm,
+        max_iter=1,
         verbose=verbose,
         allow_delegation=False,
     )
