@@ -3,14 +3,17 @@ import time
 from typing import Optional, Dict, Any
 from crewai import LLM
 
+# Disable telemetry and trace sharing prompts for headless/cloud environments
+os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
+os.environ["OTEL_SDK_DISABLED"] = "true"
+
 GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 DEFAULT_MODEL = "openai/gpt-oss-120b"
 
 AVAILABLE_MODELS = [
     "openai/gpt-oss-120b",
-    "openai/llama-3.3-70b-versatile",
-    "openai/llama-3.1-8b-instant",
-    "openai/deepseek-r1-distill-llama-70b",
+    "openai/gpt-oss-20b",
+    "qwen/qwen3.8-27b",
 ]
 
 
@@ -62,14 +65,20 @@ def get_llm(
     os.environ["GROQ_API_KEY"] = resolved_key
     os.environ["OPENAI_API_BASE"] = GROQ_BASE_URL
     os.environ["OPENAI_API_KEY"] = resolved_key
+    os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
+    os.environ["OTEL_SDK_DISABLED"] = "true"
 
-    # Ensure model starts with openai/ for OpenAI-compatible base_url routing
     clean_model = model.strip()
+    # If model contains a slash (like openai/gpt-oss-120b or qwen/qwen3.8-27b),
+    # prefix with 'openai/' so CrewAI uses openai provider and sends the full model name to Groq
     if not clean_model.startswith("openai/"):
-        clean_model = f"openai/{clean_model}"
+        llm_model_param = f"openai/{clean_model}"
+    else:
+        # e.g. openai/gpt-oss-120b -> openai/openai/gpt-oss-120b
+        llm_model_param = f"openai/{clean_model}"
 
     return LLM(
-        model=clean_model,
+        model=llm_model_param,
         base_url=GROQ_BASE_URL,
         api_key=resolved_key,
         temperature=temperature,
