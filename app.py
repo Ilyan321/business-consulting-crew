@@ -1,3 +1,4 @@
+import _compat  # noqa: F401 - Apply Python 3.14+ Pydantic v1 patch before CrewAI imports
 import os
 import time
 import json

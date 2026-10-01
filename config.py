@@ -1,3 +1,4 @@
+import _compat  # noqa: F401
 import os
 import time
 from typing import Optional, Dict, Any

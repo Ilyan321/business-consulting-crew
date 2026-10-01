@@ -1,3 +1,4 @@
+import _compat  # noqa: F401
 from typing import Dict, Any, Optional, Callable, Tuple, List
 from crewai import Crew, Process, LLM
 
