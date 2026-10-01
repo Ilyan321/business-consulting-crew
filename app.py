@@ -1,5 +1,6 @@
 import os
 import time
+import json
 import streamlit as st
 from typing import Dict, Any
 
@@ -11,6 +12,11 @@ from config import (
     test_groq_connection,
 )
 from crew import run_consulting_pipeline
+from db_supabase import (
+    is_supabase_configured,
+    save_report_to_supabase,
+    fetch_reports_from_supabase,
+)
 
 # ─────────────────────────────────────────────────────────────
 # 1. Page Configuration & Styling
@@ -133,7 +139,7 @@ if "report_results" not in st.session_state:
     st.session_state["report_results"] = None
 
 # ─────────────────────────────────────────────────────────────
-# 3. Sidebar - Environment, Models & Credentials
+# 3. Sidebar - Environment, Models, Web Tools & Supabase
 # ─────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("### ⚙️ Advisory System Config")
@@ -172,12 +178,12 @@ with st.sidebar:
     selected_model_option = st.selectbox(
         "Groq Model",
         options=AVAILABLE_MODELS + ["Custom Model ID..."],
-        index=0,  # Default to openai/gpt-oss-120b
-        help="Model executed on Groq LPU inference engine via OpenAI-compatible endpoint.",
+        index=0,  # Default to openai/gpt-oss-20b for high speed and no rate limits
+        help="openai/gpt-oss-20b is recommended for fast execution. openai/gpt-oss-120b provides deep reasoning.",
     )
 
     if selected_model_option == "Custom Model ID...":
-        custom_model = st.text_input("Enter Model ID", value="openai/gpt-oss-120b")
+        custom_model = st.text_input("Enter Model ID", value="openai/gpt-oss-20b")
         active_model = custom_model.strip()
     else:
         active_model = selected_model_option
@@ -191,8 +197,23 @@ with st.sidebar:
         help="Lower values yield more structured analytical rigor; higher values increase strategic creativity.",
     )
 
-    # Base URL display
-    st.caption(f"**Endpoint:** `{GROQ_BASE_URL}`")
+    # Web Search Tool Toggle
+    st.markdown("#### 🌐 Live Web Intelligence")
+    enable_web_search = st.toggle(
+        "DuckDuckGo Live Browser Search",
+        value=True,
+        help="Allows the Market Researcher agent to execute live web searches for real-time market data and competitor benchmarks.",
+    )
+
+    # Supabase Cloud Storage Status
+    st.markdown("#### 🗄️ Supabase Cloud Storage")
+    if is_supabase_configured():
+        st.success("✅ Supabase Connected (Cloud DB Active)", icon="🗄️")
+    else:
+        st.caption(
+            "ℹ️ **Optional Persistence**: Add `SUPABASE_URL` and `SUPABASE_KEY` to `.streamlit/secrets.toml` "
+            "to automatically archive all generated consulting engagements."
+        )
 
     # API Connection Verification
     if st.button("🔌 Test Groq Connection", use_container_width=True):
@@ -218,15 +239,15 @@ with st.sidebar:
         """
         <div class="agent-card">
             <b>1. Market Intelligence Specialist</b><br>
-            <small>Macro trends, TAM/SAM/SOM, and competitive gap discovery.</small>
+            <small>Live DuckDuckGo research, macro trends, TAM/SAM/SOM, and competitor discovery.</small>
         </div>
         <div class="agent-card">
             <b>2. Business & Growth Strategist</b><br>
-            <small>Value proposition, monetization models, and defensible moats.</small>
+            <small>Value proposition, business model, monetization, and defensible moats.</small>
         </div>
         <div class="agent-card">
             <b>3. Financial & Risk Analyst</b><br>
-            <small>Unit economics, cost structures, burn rate, and risk matrix.</small>
+            <small>Unit economics (CAC/LTV), cost structures, burn rate, and 4-tier risk matrix.</small>
         </div>
         <div class="agent-card">
             <b>4. Executive Reviewer & Managing Partner</b><br>
@@ -237,7 +258,7 @@ with st.sidebar:
     )
 
     st.divider()
-    st.caption("Framework: **CrewAI** | Engine: **Groq LPU** | UI: **Streamlit Cloud**")
+    st.caption("Framework: **CrewAI** | Engine: **Groq LPU** | Tools: **DuckDuckGo** | Storage: **Supabase**")
 
 
 # ─────────────────────────────────────────────────────────────
@@ -246,8 +267,8 @@ with st.sidebar:
 st.markdown('<div class="consult-badge">Multi-Agent Strategy Engine</div>', unsafe_allow_html=True)
 st.title("💼 ApexConsult AI: Strategic Advisory Crew")
 st.markdown(
-    '<div class="consult-subhead">Autonomous 4-agent consulting squad collaborating via CrewAI & ultra-fast Groq inference '
-    'to research, analyze, stress-test, and synthesize comprehensive C-suite business strategy reports.</div>',
+    '<div class="consult-subhead">Autonomous 4-agent consulting squad collaborating via CrewAI, live DuckDuckGo web search, '
+    'and ultra-fast Groq inference to research, analyze, stress-test, and synthesize comprehensive C-suite business strategy reports.</div>',
     unsafe_allow_html=True,
 )
 
@@ -345,13 +366,13 @@ if launch_button:
     status_container = st.status("Initializing Consulting Crew...", expanded=True)
 
     with status_container:
-        st.write("🔧 Setting up Groq inference client and assigning agent roles...")
+        st.write("🔧 Initializing Groq client and equipping agents with DuckDuckGo search...")
         time.sleep(0.5)
 
         start_time = time.time()
         try:
             status_container.update(
-                label="Executing Phase 1: Market Intelligence & Industry Deep-Dive...",
+                label="Executing 4-Agent Consulting Pipeline (Live Research ➔ Strategy ➔ Financials ➔ Executive Audit)...",
                 state="running",
             )
 
@@ -365,11 +386,29 @@ if launch_button:
                 api_key=active_groq_key,
                 model=active_model,
                 temperature=temperature,
+                enable_web_search=enable_web_search,
             )
 
             elapsed_total = round(time.time() - start_time, 2)
             results["elapsed_time"] = elapsed_total
             results["model"] = active_model
+
+            # Save to Supabase if configured
+            if is_supabase_configured():
+                st.write("💾 Archiving report to Supabase cloud database...")
+                db_res = save_report_to_supabase(
+                    business_idea=business_idea_input,
+                    target_industry=target_industry_input,
+                    target_market=target_market_input,
+                    budget_or_stage=budget_stage_input,
+                    strategic_focus=strategic_focus_input,
+                    final_report=results.get("final_report", ""),
+                    step_outputs=results.get("step_outputs", []),
+                    model=active_model,
+                    elapsed_time=elapsed_total,
+                )
+                if db_res.get("success"):
+                    st.write("✅ Report successfully saved to Supabase!")
 
             st.session_state["report_results"] = results
 
@@ -390,7 +429,7 @@ if launch_button:
             st.info(
                 "💡 **Troubleshooting Tips:**\n"
                 "- Verify your Groq API Key has active quota at [console.groq.com](https://console.groq.com).\n"
-                "- Try selecting an alternate model such as `openai/llama-3.3-70b-versatile` in the sidebar if rate-limited."
+                "- Try selecting `openai/gpt-oss-20b` in the sidebar if encountering rate-limits."
             )
             st.stop()
 
@@ -447,9 +486,7 @@ if st.session_state["report_results"]:
         st.metric(label="Inference Latency", value=f"{elapsed}s")
 
     with metric_col2:
-        tokens_info = results.get("token_usage")
-        total_tokens = tokens_info.get("total_tokens", "N/A") if isinstance(tokens_info, dict) else "N/A"
-        st.metric(label="Total Tokens", value=total_tokens)
+        st.metric(label="Inference Engine", value=model_name.replace("openai/", ""))
 
     st.write("")
 
@@ -460,6 +497,7 @@ if st.session_state["report_results"]:
         "💡 Business Strategy & GTM (Agent 2)",
         "📊 Financials & Risk Matrix (Agent 3)",
         "📋 Full Advisory Dossier",
+        "🗄️ Saved Reports (Supabase)",
     ])
 
     # Tab 1: Executive Boardroom Report
@@ -499,3 +537,42 @@ if st.session_state["report_results"]:
         for s in step_outputs:
             with st.expander(f"{s['title']} — {s['agent_role']}", expanded=False):
                 st.markdown(s["content"])
+
+    # Tab 6: Supabase Saved Reports
+    with tabs[5]:
+        st.markdown("### 🗄️ Historical Consulting Reports (Supabase Archive)")
+        if is_supabase_configured():
+            saved_reports = fetch_reports_from_supabase()
+            if saved_reports:
+                st.write(f"Found **{len(saved_reports)}** archived reports:")
+                for r in saved_reports:
+                    with st.expander(f"📁 {r.get('target_industry', 'Report')} — {r.get('created_at', '')[:10]} ({r.get('model_used', '')})"):
+                        st.markdown(f"**Concept:** {r.get('business_idea')}")
+                        st.markdown(f"**Target Market:** {r.get('target_market')} | **Stage:** {r.get('budget_or_stage')}")
+                        st.divider()
+                        st.markdown(r.get("final_report", ""))
+            else:
+                st.info("No reports saved in your Supabase database yet. Run an engagement to save the first report!")
+        else:
+            st.info(
+                "💡 **Connect Supabase for Persistent Storage:**\n\n"
+                "To store and view past consulting reports permanently across sessions:\n"
+                "1. Create a free project at [supabase.com](https://supabase.com).\n"
+                "2. Create the table in Supabase SQL Editor:\n"
+                "```sql\n"
+                "create table consulting_reports (\n"
+                "  id uuid primary key default gen_random_uuid(),\n"
+                "  created_at timestamp with time zone default now(),\n"
+                "  business_idea text,\n"
+                "  target_industry text,\n"
+                "  target_market text,\n"
+                "  budget_or_stage text,\n"
+                "  strategic_focus text,\n"
+                "  final_report text,\n"
+                "  step_outputs jsonb,\n"
+                "  model_used text,\n"
+                "  elapsed_time float\n"
+                ");\n"
+                "```\n"
+                "3. Add `SUPABASE_URL` and `SUPABASE_KEY` to `.streamlit/secrets.toml` or Streamlit Cloud Secrets."
+            )

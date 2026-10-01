@@ -191,16 +191,38 @@ streamlit run app.py
 
 ---
 
-## 📋 Deliverable Output Sections
+## 🌐 Live Web Research (DuckDuckGo Tool)
 
-Every generated consulting report includes:
-- **Executive Summary & Strategic Viability Scorecard** (High / Moderate / Conditional)
-- **Macro Industry Trends & Addressable Market Sizing** (TAM, SAM, SOM)
-- **Competitive Landscape Matrix & Unserved Gaps**
-- **Business Model Architecture & Defensible Moats**
-- **Financial Viability, Unit Economics (CAC/LTV) & Cost Drivers**
-- **Comprehensive 4-Tier Risk Matrix with Mitigation Protocols**
-- **Actionable 30-60-90 Day Post-Launch Implementation Roadmap**
-- **Final Go/Pivot/No-Go Recommendation**
+Unlike standard LLM-only pipelines that rely solely on outdated pre-training knowledge, the **Market Intelligence Specialist** agent is equipped with a real-time **DuckDuckGo Search Tool** (`tools/search_tool.py`).
+- Searches live competitor websites, recent fundraising rounds, regulatory shifts, and industry benchmarks in real time.
+- Requires **zero extra API keys** (utilizes DuckDuckGo's live web endpoints).
+- Can be toggled on/off directly from the Streamlit UI sidebar.
 
-All deliverables can be downloaded immediately as Markdown (`.md`) or plain text (`.txt`).
+---
+
+## 🗄️ Supabase Cloud Storage (Optional Persistence)
+
+The application includes plug-and-play **Supabase** persistence (`db_supabase.py`):
+- **Automatic Archival**: Every generated consulting engagement is saved with timestamp, metadata, and full step-by-step agent outputs.
+- **Report History Tab**: Browse, reload, and review past client advisory reports directly in the Streamlit UI.
+- **Zero Lock-In / Optional**: If Supabase credentials are not provided, the app seamlessly runs using local session memory.
+
+### Setting Up Supabase (1-Minute Setup):
+1. Create a free project at [supabase.com](https://supabase.com).
+2. Run this SQL in your Supabase SQL Editor:
+```sql
+create table consulting_reports (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamp with time zone default now(),
+  business_idea text,
+  target_industry text,
+  target_market text,
+  budget_or_stage text,
+  strategic_focus text,
+  final_report text,
+  step_outputs jsonb,
+  model_used text,
+  elapsed_time float
+);
+```
+3. Add `SUPABASE_URL` and `SUPABASE_KEY` to your Streamlit Cloud Secrets.

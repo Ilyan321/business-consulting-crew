@@ -1,4 +1,4 @@
-from typing import Dict, Any, Optional, Callable, Tuple
+from typing import Dict, Any, Optional, Callable, Tuple, List
 from crewai import Crew, Process, LLM
 
 from config import get_llm, DEFAULT_MODEL
@@ -9,19 +9,24 @@ from agents import (
     create_reviewer_agent,
 )
 from tasks import create_consulting_tasks
+from tools import duckduckgo_web_search
 
 
 def build_consulting_crew(
     llm: LLM,
     task_callback: Optional[Callable] = None,
+    enable_web_search: bool = True,
     verbose: bool = True,
 ) -> Tuple[Crew, Dict[str, Any]]:
     """
     Assembles the 4 specialized agents and their sequential tasks into
     a unified CrewAI multi-agent consulting pipeline.
     """
-    # 1. Instantiate the specialized agents
-    researcher = create_researcher_agent(llm=llm, verbose=verbose)
+    # 1. Prepare tools
+    researcher_tools = [duckduckgo_web_search] if enable_web_search else []
+
+    # 2. Instantiate the specialized agents
+    researcher = create_researcher_agent(llm=llm, tools=researcher_tools, verbose=verbose)
     strategist = create_strategist_agent(llm=llm, verbose=verbose)
     financial_analyst = create_financial_analyst_agent(llm=llm, verbose=verbose)
     reviewer = create_reviewer_agent(llm=llm, verbose=verbose)
@@ -33,7 +38,7 @@ def build_consulting_crew(
         "reviewer": reviewer,
     }
 
-    # 2. Instantiate the interconnected sequential tasks
+    # 3. Instantiate the interconnected sequential tasks
     tasks = create_consulting_tasks(
         researcher=researcher,
         strategist=strategist,
@@ -42,7 +47,7 @@ def build_consulting_crew(
         task_callback=task_callback,
     )
 
-    # 3. Assemble the Crew
+    # 4. Assemble the Crew
     consulting_crew = Crew(
         agents=[researcher, strategist, financial_analyst, reviewer],
         tasks=tasks,
@@ -62,6 +67,7 @@ def run_consulting_pipeline(
     api_key: Optional[str] = None,
     model: str = DEFAULT_MODEL,
     temperature: float = 0.7,
+    enable_web_search: bool = True,
     task_callback: Optional[Callable] = None,
 ) -> Dict[str, Any]:
     """
@@ -71,8 +77,12 @@ def run_consulting_pipeline(
     # Initialize the Groq LLM
     llm = get_llm(api_key=api_key, model=model, temperature=temperature)
 
-    # Assemble the crew
-    crew, agents = build_consulting_crew(llm=llm, task_callback=task_callback)
+    # Assemble the crew with optional live web search tool
+    crew, agents = build_consulting_crew(
+        llm=llm,
+        task_callback=task_callback,
+        enable_web_search=enable_web_search,
+    )
 
     # Prepare inputs dictionary
     inputs = {
