@@ -23,8 +23,8 @@ from db_supabase import (
 # 1. Page Configuration & Styling
 # ─────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="ApexConsult AI | Autonomous Business Advisory",
-    page_icon="💼",
+    page_title="Apex Strategic Advisory | Executive Diligence Platform",
+    page_icon="🏛️",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -32,38 +32,48 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* Modern consulting aesthetic */
+    /* Institutional corporate strategy aesthetic */
     .consult-badge {
         display: inline-block;
         padding: 4px 12px;
-        background: linear-gradient(135deg, #2563EB, #1D4ED8);
-        color: white;
-        font-size: 0.78rem;
+        background-color: #0F172A;
+        color: #F8FAFC;
+        font-size: 0.76rem;
         font-weight: 600;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
-        border-radius: 9999px;
+        border-radius: 4px;
         margin-bottom: 8px;
     }
     .consult-subhead {
-        color: #475569;
-        font-size: 1.05rem;
+        color: #334155;
+        font-size: 1.02rem;
+        line-height: 1.55;
         margin-bottom: 24px;
     }
     .agent-card {
         border: 1px solid #E2E8F0;
         background-color: #F8FAFC;
-        border-radius: 8px;
-        padding: 12px 16px;
-        margin-bottom: 10px;
+        border-radius: 6px;
+        padding: 10px 14px;
+        margin-bottom: 8px;
     }
     .agent-card b {
-        color: #1E293B;
+        color: #0F172A;
+        font-size: 0.88rem;
+    }
+    .agent-card small {
+        color: #475569;
+        font-size: 0.78rem;
     }
     .stDownloadButton button {
-        background-color: #2563EB !important;
-        color: white !important;
-        border: none !important;
+        background-color: #0F172A !important;
+        color: #FFFFFF !important;
+        border: 1px solid #0F172A !important;
+        border-radius: 6px !important;
+    }
+    .stDownloadButton button:hover {
+        background-color: #1E293B !important;
     }
     </style>
     """,
@@ -81,61 +91,56 @@ PRESET_TEMPLATES = {
         "stage": "Seed Stage ($500K - $1.5M)",
         "focus": "",
     },
-    "B2B AI Regulatory Compliance SaaS": {
+    "B2B Regulatory Compliance & Audit SaaS": {
         "idea": (
-            "An AI-powered automated regulatory compliance and audit-readiness platform "
-            "for mid-market fintech and healthcare firms. Ingests legal documents, "
-            "vendor contracts, and internal policies to continuously detect compliance "
-            "gaps against SOC2, HIPAA, and GDPR."
+            "An enterprise compliance automation and audit-readiness platform for mid-market fintech and healthcare firms. "
+            "Ingests contracts, vendor agreements, and internal policies to continuously detect compliance gaps across SOC 2, HIPAA, and GDPR."
         ),
         "industry": "Enterprise Software / RegTech & LegalTech",
         "market": "North America & European Union (Mid-Market B2B)",
-        "stage": "Seed Stage ($1M Seed Raised)",
+        "stage": "Seed Stage ($1M Raised)",
         "focus": (
-            "Pricing model (usage-based vs seat-based), enterprise sales cycle acceleration, "
-            "defensibility against big tech, and unit economics."
+            "Usage-based vs seat-based pricing architecture, enterprise sales cycle compression, "
+            "defensibility against legacy GRC vendors, and CAC payback timeline."
         ),
     },
-    "Sustainable Circular DTC Apparel": {
+    "Sustainable Circular DTC Apparel Brand": {
         "idea": (
-            "A closed-loop direct-to-consumer athletic apparel brand manufactured strictly "
-            "from 100% ocean-bound recycled polymers, featuring a prepaid buy-back trade-in program "
-            "where worn garments are shredded and remanufactured."
+            "A closed-loop direct-to-consumer performance athletic apparel brand manufactured strictly from 100% ocean-bound recycled polymers, "
+            "featuring a guaranteed buy-back trade-in program where worn garments are remanufactured into new lines."
         ),
-        "industry": "Sustainable Consumer Goods / Apparel & Retail",
-        "market": "Urban Millennials & Gen-Z (US & UK)",
-        "stage": "Early Revenue / Pre-Seed ($300K Angel Investment)",
+        "industry": "Consumer Goods / Sustainable Apparel & Retail",
+        "market": "Urban Demographic (US & UK Tier-1 Metros)",
+        "stage": "Early Revenue / Pre-Seed ($300K Angel Round)",
         "focus": (
-            "Customer acquisition cost (CAC) reduction in privacy-first iOS era, supply chain reverse-logistics "
-            "margin viability, and customer lifetime value (LTV)."
+            "Customer acquisition cost (CAC) reduction in privacy-first channels, reverse-logistics margin viability, and repeat purchase LTV."
         ),
     },
-    "Autonomous Drone Delivery for Diagnostics": {
+    "Autonomous Drone Logistics for Clinical Diagnostics": {
         "idea": (
-            "On-demand autonomous medical drone transport delivering critical pathology samples, "
-            "rare blood units, and anti-venom to rural clinics and community hospitals within a 75-mile radius."
+            "On-demand autonomous medical drone transport delivering critical pathology specimens, blood units, and anti-venom to rural clinics "
+            "and regional health systems within a 75-mile operating radius."
         ),
         "industry": "Healthcare Logistics & Autonomous Aviation",
-        "market": "Rural US & Emerging Regional Healthcare Networks",
+        "market": "Regional Healthcare Networks & Rural Health Systems",
         "stage": "Series A ($5M Target)",
         "focus": (
-            "FAA regulatory certification pathways, hospital network procurement hurdles, "
-            "fleet maintenance CapEx, and break-even unit economics per flight."
+            "FAA certification pathway, health system procurement friction, fleet maintenance CapEx, and break-even per flight route."
         ),
     },
 }
 
 # Initialize session state variables
 if "business_idea" not in st.session_state:
-    st.session_state["business_idea"] = PRESET_TEMPLATES["B2B AI Regulatory Compliance SaaS"]["idea"]
+    st.session_state["business_idea"] = PRESET_TEMPLATES["B2B Regulatory Compliance & Audit SaaS"]["idea"]
 if "target_industry" not in st.session_state:
-    st.session_state["target_industry"] = PRESET_TEMPLATES["B2B AI Regulatory Compliance SaaS"]["industry"]
+    st.session_state["target_industry"] = PRESET_TEMPLATES["B2B Regulatory Compliance & Audit SaaS"]["industry"]
 if "target_market" not in st.session_state:
-    st.session_state["target_market"] = PRESET_TEMPLATES["B2B AI Regulatory Compliance SaaS"]["market"]
+    st.session_state["target_market"] = PRESET_TEMPLATES["B2B Regulatory Compliance & Audit SaaS"]["market"]
 if "budget_or_stage" not in st.session_state:
-    st.session_state["budget_or_stage"] = PRESET_TEMPLATES["B2B AI Regulatory Compliance SaaS"]["stage"]
+    st.session_state["budget_or_stage"] = PRESET_TEMPLATES["B2B Regulatory Compliance & Audit SaaS"]["stage"]
 if "strategic_focus" not in st.session_state:
-    st.session_state["strategic_focus"] = PRESET_TEMPLATES["B2B AI Regulatory Compliance SaaS"]["focus"]
+    st.session_state["strategic_focus"] = PRESET_TEMPLATES["B2B Regulatory Compliance & Audit SaaS"]["focus"]
 if "report_results" not in st.session_state:
     st.session_state["report_results"] = None
 
@@ -143,15 +148,15 @@ if "report_results" not in st.session_state:
 # 3. Sidebar - Environment, Models, Web Tools & Supabase
 # ─────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("### ⚙️ Advisory System Config")
+    st.markdown("### System Configuration")
 
-    # API Key Handling (Streamlit Secrets vs Manual Input)
+    # API Key Handling
     detected_secret_key = get_groq_api_key()
     has_secret = bool(detected_secret_key)
 
     if has_secret:
-        st.success("✅ Groq API Key loaded from Secrets", icon="🔑")
-        use_manual_key = st.toggle("Override with custom API Key", value=False)
+        st.success("API Key Active (Streamlit Secrets)")
+        use_manual_key = st.toggle("Override API Key", value=False)
         if use_manual_key:
             groq_key_input = st.text_input(
                 "Custom Groq API Key",
@@ -163,118 +168,114 @@ with st.sidebar:
         else:
             active_groq_key = detected_secret_key
     else:
-        st.warning("⚠️ No Groq API Key found in secrets", icon="⚠️")
+        st.warning("No Groq API Key found in secrets")
         groq_key_input = st.text_input(
             "Enter Groq API Key",
             type="password",
             placeholder="gsk_...",
-            help="Get your free key from https://console.groq.com/keys",
+            help="Get your key from https://console.groq.com/keys",
         )
         active_groq_key = groq_key_input.strip()
 
     st.divider()
 
     # Model Selection
-    st.markdown("#### 🧠 Inference Engine (Groq)")
+    st.markdown("#### Inference Engine")
     selected_model_option = st.selectbox(
-        "Groq Model",
+        "Model ID",
         options=AVAILABLE_MODELS + ["Custom Model ID..."],
-        index=0,  # Default to openai/gpt-oss-20b for high speed and no rate limits
-        help="openai/gpt-oss-20b is recommended for fast execution. openai/gpt-oss-120b provides deep reasoning.",
+        index=0,
+        help="gpt-oss-20b delivers high speed and high token throughput. gpt-oss-120b provides deep-tier reasoning.",
     )
 
     if selected_model_option == "Custom Model ID...":
-        custom_model = st.text_input("Enter Model ID", value="openai/gpt-oss-20b")
+        custom_model = st.text_input("Model Name", value="openai/gpt-oss-20b")
         active_model = custom_model.strip()
     else:
         active_model = selected_model_option
 
     temperature = st.slider(
-        "Sampling Temperature",
+        "Analytical Temperature",
         min_value=0.0,
         max_value=1.0,
-        value=0.7,
+        value=0.5,
         step=0.05,
-        help="Lower values yield more structured analytical rigor; higher values increase strategic creativity.",
+        help="Lower values enforce structured analytical precision; higher values increase strategic divergence.",
     )
 
     # Web Search Tool Toggle
-    st.markdown("#### 🌐 Live Web Intelligence")
+    st.markdown("#### Real-Time Intelligence")
     enable_web_search = st.toggle(
-        "DuckDuckGo Live Browser Search",
+        "Live Market Data (DuckDuckGo)",
         value=True,
-        help="Allows the Market Researcher agent to execute live web searches for real-time market data and competitor benchmarks.",
+        help="Enables live web queries for up-to-date competitor intelligence and market statistics.",
     )
 
     # Supabase Cloud Storage Status
-    st.markdown("#### 🗄️ Supabase Cloud Storage")
+    st.markdown("#### Cloud Repository")
     if is_supabase_configured():
-        st.success("✅ Supabase Connected (Cloud DB Active)", icon="🗄️")
+        st.success("Supabase Active (Cloud Archive Connected)")
     else:
-        st.caption(
-            "ℹ️ **Optional Persistence**: Add `SUPABASE_URL` and `SUPABASE_KEY` to `.streamlit/secrets.toml` "
-            "to automatically archive all generated consulting engagements."
-        )
+        st.caption("Supabase: Optional (Running in Session Mode)")
 
     # API Connection Verification
-    if st.button("🔌 Test Groq Connection", use_container_width=True):
+    if st.button("Test Endpoint Connection", use_container_width=True):
         if not active_groq_key:
             st.error("Please enter a valid Groq API Key first.")
         else:
-            with st.spinner("Testing Groq endpoint..."):
+            with st.spinner("Pinging endpoint..."):
                 test_result = test_groq_connection(
                     api_key=active_groq_key,
                     model=active_model,
                 )
                 if test_result.get("success"):
-                    st.success(f"Connection OK ({test_result['latency']}s) via `{test_result.get('method')}`")
-                    st.info(f"Response: {test_result.get('message')}")
+                    st.success(f"Connection Verified ({test_result['latency']}s latency)")
                 else:
                     st.error(f"Connection failed: {test_result.get('error')}")
 
     st.divider()
 
     # Multi-Agent Roster
-    st.markdown("#### 👥 Multi-Agent Roster (4 Agents)")
+    st.markdown("#### Specialized Advisory Council")
     st.markdown(
         """
         <div class="agent-card">
-            <b>1. Market Intelligence Specialist</b><br>
-            <small>Live DuckDuckGo research, macro trends, TAM/SAM/SOM, and competitor discovery.</small>
+            <b>1. Market Intelligence Director</b><br>
+            <small>TAM/SAM/SOM sizing, PESTLE dynamics, competitor benchmarking.</small>
         </div>
         <div class="agent-card">
-            <b>2. Business & Growth Strategist</b><br>
-            <small>Value proposition, business model, monetization, and defensible moats.</small>
+            <b>2. Commercial & Growth Strategist</b><br>
+            <small>Monetization architecture, pricing tiers, defensible moats.</small>
         </div>
         <div class="agent-card">
-            <b>3. Financial & Risk Analyst</b><br>
-            <small>Unit economics (CAC/LTV), cost structures, burn rate, and 4-tier risk matrix.</small>
+            <b>3. Quantitative Financial Analyst</b><br>
+            <small>CAC/LTV unit economics, CapEx/OpEx burn, 4-tier risk matrix.</small>
         </div>
         <div class="agent-card">
-            <b>4. Executive Reviewer & Managing Partner</b><br>
-            <small>Quality critique, synthesis, and 30-60-90 day execution roadmap.</small>
+            <b>4. Executive Review Partner</b><br>
+            <small>Audit reconciliation, strategic scorecard, 30-60-90 day plan.</small>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
     st.divider()
-    st.caption("Framework: **CrewAI** | Engine: **Groq LPU** | Tools: **DuckDuckGo** | Storage: **Supabase**")
+    st.caption("Engine: **CrewAI + Groq LPU** | Data: **DuckDuckGo** | Storage: **Supabase**")
 
 
 # ─────────────────────────────────────────────────────────────
 # 4. Main Panel - Header & Engagement Brief
 # ─────────────────────────────────────────────────────────────
-st.markdown('<div class="consult-badge">Multi-Agent Strategy Engine</div>', unsafe_allow_html=True)
-st.title("💼 ApexConsult AI: Strategic Advisory Crew")
+st.markdown('<div class="consult-badge">Institutional Diligence Platform</div>', unsafe_allow_html=True)
+st.title("Apex Strategic Advisory")
 st.markdown(
-    '<div class="consult-subhead">Autonomous 4-agent consulting squad collaborating via CrewAI, live DuckDuckGo web search, '
-    'and ultra-fast Groq inference to research, analyze, stress-test, and synthesize comprehensive C-suite business strategy reports.</div>',
+    '<div class="consult-subhead">Autonomous corporate strategy, commercial diligence, and risk governance system. '
+    'Coordinates market intelligence, commercial architecture, quantitative unit economics, and executive review into boardroom-ready deliverables.</div>',
     unsafe_allow_html=True,
 )
 
 # Preset Selection Bar
-st.markdown("##### 📁 Load Strategic Case Study / Template")
+st.markdown("##### Load Strategic Case Profile")
 template_col, clear_col = st.columns([4, 1])
 
 with template_col:
@@ -289,7 +290,7 @@ with template_col:
             st.session_state["strategic_focus"] = data["focus"]
 
     selected_template = st.selectbox(
-        "Select a pre-filled business scenario or start blank:",
+        "Select a pre-filled scenario or start blank:",
         options=list(PRESET_TEMPLATES.keys()),
         index=1,
         key="selected_template",
@@ -299,48 +300,47 @@ with template_col:
 
 # Input Form
 with st.container(border=True):
-    st.markdown("### 📝 Business Proposal & Engagement Brief")
+    st.markdown("### Strategic Brief & Opportunity Profile")
 
     business_idea_input = st.text_area(
-        "Business Concept / Problem Statement *",
+        "Commercial Concept / Core Value Proposition *",
         value=st.session_state["business_idea"],
-        placeholder="Describe the product/service, core target customer, and fundamental problem you solve...",
-        height=120,
-        help="Be as clear and specific as possible. The agents will build their entire strategic analysis around this.",
+        placeholder="Describe the product/service, core target customer, and fundamental problem addressed...",
+        height=110,
+        help="Be specific. The analysis derives its strategic depth directly from this brief.",
     )
 
     col1, col2 = st.columns(2)
     with col1:
         target_industry_input = st.text_input(
-            "Target Industry / Domain *",
+            "Industry Sector & Domain *",
             value=st.session_state["target_industry"],
-            placeholder="e.g. HealthTech, B2B SaaS, CleanTech, Logistics",
+            placeholder="e.g. Enterprise Software, CleanTech, Health Logistics",
         )
         target_market_input = st.text_input(
-            "Target Geography / Customer Tier",
+            "Target Geography & Customer Tier",
             value=st.session_state["target_market"],
-            placeholder="e.g. North America Enterprise, Global Tier-2 SMBs",
+            placeholder="e.g. North America Enterprise, Global Mid-Market",
         )
 
     with col2:
         budget_stage_input = st.selectbox(
-            "Current Stage & Capital Horizon",
+            "Capital Horizon & Stage",
             options=[
-                "Idea / Concept Stage (Pre-Funding)",
-                "Pre-Seed ($100K - $500K)",
+                "Concept / Pre-Seed ($100K - $500K)",
                 "Seed Stage ($500K - $2M)",
-                "Series A ($2M - $10M)",
-                "Established SME / Corporate Innovation",
+                "Series A / Growth ($2M - $10M)",
+                "Enterprise Innovation / Corporate Pivot",
             ],
-            index=2,
+            index=1,
         )
         strategic_focus_input = st.text_input(
-            "Key Strategic Questions or Priorities",
+            "Priority Inquiries or Strategic Bottlenecks",
             value=st.session_state["strategic_focus"],
-            placeholder="e.g. Defensible moats, pricing strategy, customer acquisition bottleneck",
+            placeholder="e.g. Pricing architecture, defensibility against incumbents, CAC efficiency",
         )
 
-    launch_button = st.button("🚀 Deploy Consulting Crew & Generate Advisory Report", type="primary", use_container_width=True)
+    launch_button = st.button("Generate Strategic Advisory Report", type="primary", use_container_width=True)
 
 
 # ─────────────────────────────────────────────────────────────
@@ -350,30 +350,30 @@ if launch_button:
     # Validation
     if not active_groq_key:
         st.error(
-            "❌ **Groq API Key Required**: Please enter your Groq API Key in the left sidebar "
-            "or configure `GROQ_API_KEY` in Streamlit Cloud Secrets (`.streamlit/secrets.toml`).",
-            icon="🚨",
+            "**API Key Required**: Please enter your Groq API Key in the left sidebar "
+            "or configure `GROQ_API_KEY` in Streamlit Cloud Secrets.",
+            icon="⚠️",
         )
         st.stop()
 
     if not business_idea_input.strip() or not target_industry_input.strip():
-        st.error("❌ Please provide both a **Business Concept** and a **Target Industry** to proceed.")
+        st.error("Please provide both a **Commercial Concept** and a **Target Industry** to proceed.")
         st.stop()
 
     # Progress and Status Container
     st.divider()
-    st.markdown("### 🔄 Multi-Agent Deliberation in Progress")
+    st.markdown("### Strategic Diligence in Progress")
 
-    status_container = st.status("Initializing Consulting Crew...", expanded=True)
+    status_container = st.status("Initializing Strategic Advisory Council...", expanded=True)
 
     with status_container:
-        st.write("🔧 Initializing Groq client and equipping agents with DuckDuckGo search...")
-        time.sleep(0.5)
+        st.write("Configuring agent reasoning constraints and live research tools...")
+        time.sleep(0.3)
 
         start_time = time.time()
         try:
             status_container.update(
-                label="Executing 4-Agent Consulting Pipeline (Live Research ➔ Strategy ➔ Financials ➔ Executive Audit)...",
+                label="Executing 4-Phase Diligence Pipeline (Market Research ➔ Strategy ➔ Unit Economics ➔ Executive Audit)...",
                 state="running",
             )
 
@@ -396,8 +396,8 @@ if launch_button:
 
             # Save to Supabase if configured
             if is_supabase_configured():
-                st.write("💾 Archiving report to Supabase cloud database...")
-                db_res = save_report_to_supabase(
+                st.write("Archiving deliverable to cloud repository...")
+                save_report_to_supabase(
                     business_idea=business_idea_input,
                     target_industry=target_industry_input,
                     target_market=target_market_input,
@@ -408,29 +408,27 @@ if launch_button:
                     model=active_model,
                     elapsed_time=elapsed_total,
                 )
-                if db_res.get("success"):
-                    st.write("✅ Report successfully saved to Supabase!")
 
             st.session_state["report_results"] = results
 
             status_container.update(
-                label=f"✅ Engagement Complete! Generated in {elapsed_total}s",
+                label=f"Strategic Diligence Complete ({elapsed_total}s)",
                 state="complete",
                 expanded=False,
             )
-            st.success(f"🎉 Advisory Report successfully compiled in **{elapsed_total} seconds** using `{active_model}`!")
+            st.success(f"Advisory Report compiled in **{elapsed_total} seconds** using `{active_model}`.")
 
         except Exception as e:
             status_container.update(
-                label="❌ Error occurred during agent deliberation",
+                label="Diligence halted due to execution error",
                 state="error",
                 expanded=True,
             )
             st.error(f"**Execution Error:** {str(e)}")
             st.info(
-                "💡 **Troubleshooting Tips:**\n"
+                "**Troubleshooting:**\n"
                 "- Verify your Groq API Key has active quota at [console.groq.com](https://console.groq.com).\n"
-                "- Try selecting `openai/gpt-oss-20b` in the sidebar if encountering rate-limits."
+                "- Ensure `openai/gpt-oss-20b` is selected for optimal speed and throughput."
             )
             st.stop()
 
@@ -447,14 +445,14 @@ if st.session_state["report_results"]:
     model_name = results.get("model", active_model)
 
     st.markdown("---")
-    st.markdown("### 📑 Strategic Advisory Deliverables")
+    st.markdown("### Strategic Advisory Deliverables")
 
     # Action Toolbar: Download options
     download_col1, download_col2, metric_col1, metric_col2 = st.columns([2, 2, 1.5, 1.5])
 
     with download_col1:
         st.download_button(
-            label="📥 Download Full Boardroom Report (.md)",
+            label="Download Executive Boardroom Report (.md)",
             data=final_report,
             file_name=f"strategic_advisory_report_{int(time.time())}.md",
             mime="text/markdown",
@@ -464,10 +462,10 @@ if st.session_state["report_results"]:
     with download_col2:
         # Build consolidated dossier containing all agent outputs
         full_dossier = (
-            f"# COMPREHENSIVE BUSINESS STRATEGY ADVISORY DOSSIER\n"
-            f"**Business Proposal:** {inputs_meta.get('business_idea')}\n"
-            f"**Industry:** {inputs_meta.get('target_industry')} | **Stage:** {inputs_meta.get('budget_or_stage')}\n"
-            f"**Model:** {model_name} | **Generation Time:** {elapsed}s\n\n"
+            f"# COMPREHENSIVE STRATEGIC ADVISORY DOSSIER\n"
+            f"**Commercial Brief:** {inputs_meta.get('business_idea')}\n"
+            f"**Industry Sector:** {inputs_meta.get('target_industry')} | **Stage:** {inputs_meta.get('budget_or_stage')}\n"
+            f"**Execution Engine:** {model_name} | **Turnaround:** {elapsed}s\n\n"
             f"{'='*80}\n\n"
             f"# EXECUTIVE BOARDROOM ADVISORY REPORT\n\n{final_report}\n\n"
             f"{'='*80}\n\n"
@@ -476,7 +474,7 @@ if st.session_state["report_results"]:
             full_dossier += f"## {s['title']} ({s['agent_role']})\n\n{s['content']}\n\n{'-'*60}\n\n"
 
         st.download_button(
-            label="📁 Download Complete Consulting Dossier (.txt)",
+            label="Download Complete Diligence Dossier (.txt)",
             data=full_dossier,
             file_name=f"full_consulting_dossier_{int(time.time())}.txt",
             mime="text/plain",
@@ -484,21 +482,21 @@ if st.session_state["report_results"]:
         )
 
     with metric_col1:
-        st.metric(label="Inference Latency", value=f"{elapsed}s")
+        st.metric(label="Turnaround Time", value=f"{elapsed}s")
 
     with metric_col2:
-        st.metric(label="Inference Engine", value=model_name.replace("openai/", ""))
+        st.metric(label="Model Engine", value=model_name.replace("openai/", ""))
 
     st.write("")
 
     # Tabbed Interface for In-Depth Exploration
     tabs = st.tabs([
-        "🏆 Executive Boardroom Report",
-        "🔍 Market Intelligence (Agent 1)",
-        "💡 Business Strategy & GTM (Agent 2)",
-        "📊 Financials & Risk Matrix (Agent 3)",
-        "📋 Full Advisory Dossier",
-        "🗄️ Saved Reports (Supabase)",
+        "Executive Boardroom Report",
+        "Market Intelligence Dossier",
+        "Commercial Strategy & GTM",
+        "Financial Model & Risk Matrix",
+        "Consolidated Advisory Dossier",
+        "Archived Engagements (Supabase)",
     ])
 
     # Tab 1: Executive Boardroom Report
@@ -509,7 +507,7 @@ if st.session_state["report_results"]:
     with tabs[1]:
         if len(step_outputs) > 0:
             st.markdown(f"### {step_outputs[0]['title']}")
-            st.caption(f"**Lead Analyst:** {step_outputs[0]['agent_role']}")
+            st.caption(f"**Lead Director:** {step_outputs[0]['agent_role']}")
             st.markdown(step_outputs[0]["content"])
         else:
             st.info("Market intelligence details are synthesized inside the main executive report.")
@@ -518,62 +516,46 @@ if st.session_state["report_results"]:
     with tabs[2]:
         if len(step_outputs) > 1:
             st.markdown(f"### {step_outputs[1]['title']}")
-            st.caption(f"**Lead Analyst:** {step_outputs[1]['agent_role']}")
+            st.caption(f"**Lead Director:** {step_outputs[1]['agent_role']}")
             st.markdown(step_outputs[1]["content"])
         else:
-            st.info("Strategy formulation details are synthesized inside the main executive report.")
+            st.info("Commercial strategy details are synthesized inside the main executive report.")
 
     # Tab 4: Financials & Risk Matrix (Agent 3)
     with tabs[3]:
         if len(step_outputs) > 2:
             st.markdown(f"### {step_outputs[2]['title']}")
-            st.caption(f"**Lead Analyst:** {step_outputs[2]['agent_role']}")
+            st.caption(f"**Lead Director:** {step_outputs[2]['agent_role']}")
             st.markdown(step_outputs[2]["content"])
         else:
-            st.info("Financial stress-test details are synthesized inside the main executive report.")
+            st.info("Financial modeling details are synthesized inside the main executive report.")
 
     # Tab 5: Full Dossier
     with tabs[4]:
-        st.markdown("### Complete Consulting Process & Agent Logs")
+        st.markdown("### Complete Diligence Audit Trail & Agent Deliverables")
         for s in step_outputs:
             with st.expander(f"{s['title']} — {s['agent_role']}", expanded=False):
                 st.markdown(s["content"])
 
     # Tab 6: Supabase Saved Reports
     with tabs[5]:
-        st.markdown("### 🗄️ Historical Consulting Reports (Supabase Archive)")
+        st.markdown("### Historical Advisory Archives")
         if is_supabase_configured():
             saved_reports = fetch_reports_from_supabase()
             if saved_reports:
-                st.write(f"Found **{len(saved_reports)}** archived reports:")
+                st.write(f"Found **{len(saved_reports)}** archived advisory reports:")
                 for r in saved_reports:
                     with st.expander(f"📁 {r.get('target_industry', 'Report')} — {r.get('created_at', '')[:10]} ({r.get('model_used', '')})"):
-                        st.markdown(f"**Concept:** {r.get('business_idea')}")
+                        st.markdown(f"**Commercial Concept:** {r.get('business_idea')}")
                         st.markdown(f"**Target Market:** {r.get('target_market')} | **Stage:** {r.get('budget_or_stage')}")
                         st.divider()
                         st.markdown(r.get("final_report", ""))
             else:
-                st.info("No reports saved in your Supabase database yet. Run an engagement to save the first report!")
+                st.info("No archived reports in cloud repository yet.")
         else:
             st.info(
-                "💡 **Connect Supabase for Persistent Storage:**\n\n"
-                "To store and view past consulting reports permanently across sessions:\n"
-                "1. Create a free project at [supabase.com](https://supabase.com).\n"
-                "2. Create the table in Supabase SQL Editor:\n"
-                "```sql\n"
-                "create table consulting_reports (\n"
-                "  id uuid primary key default gen_random_uuid(),\n"
-                "  created_at timestamp with time zone default now(),\n"
-                "  business_idea text,\n"
-                "  target_industry text,\n"
-                "  target_market text,\n"
-                "  budget_or_stage text,\n"
-                "  strategic_focus text,\n"
-                "  final_report text,\n"
-                "  step_outputs jsonb,\n"
-                "  model_used text,\n"
-                "  elapsed_time float\n"
-                ");\n"
-                "```\n"
-                "3. Add `SUPABASE_URL` and `SUPABASE_KEY` to `.streamlit/secrets.toml` or Streamlit Cloud Secrets."
+                "**Connect Supabase Cloud Storage:**\n\n"
+                "To store and view past consulting reports permanently:\n"
+                "1. Add `SUPABASE_URL` and `SUPABASE_KEY` to your Streamlit Cloud Secrets.\n"
+                "2. All completed deliverables will automatically persist here."
             )
